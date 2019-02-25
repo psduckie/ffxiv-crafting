@@ -1,7 +1,7 @@
 package duck.craftffxiv;
 
 import java.io.BufferedReader;
-import java.io.File;
+//import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,7 @@ public class CsvReader {
 					
 					if(fields.length > 0) {
 						CsvEntry entry = new CsvEntry();
+						entry.setIndex(count);
 						entry.setItem(fields[0]);
 						entry.setNeeded(Integer.parseInt(fields[3]));
 						entries.add(entry);
@@ -39,9 +40,9 @@ public class CsvReader {
 				count++;
 			}
 			
-			for(CsvEntry i: entries) {
+/*			for(CsvEntry i: entries) {
 				LOGGER.info(i.getNeeded() + " units of " + i.getItem() + " are needed.");
-			}
+			}*/
 		}
 		catch(Exception e) {
 			LOGGER.severe(e.getMessage());
@@ -49,9 +50,9 @@ public class CsvReader {
 		return entries;
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		String filePath = new File("").getAbsolutePath();
 		String fullFilePath = filePath.concat("/src/list.csv");
 		readCsv(fullFilePath);
-	}
+	}*/
 }
