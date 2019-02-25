@@ -1,6 +1,7 @@
 package duck.craftffxiv;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +47,11 @@ public class CsvReader {
 			LOGGER.severe(e.getMessage());
 		}
 		return entries;
+	}
+	
+	public static void main(String[] args) {
+		String filePath = new File("").getAbsolutePath();
+		String fullFilePath = filePath.concat("/src/list.csv");
+		readCsv(fullFilePath);
 	}
 }
