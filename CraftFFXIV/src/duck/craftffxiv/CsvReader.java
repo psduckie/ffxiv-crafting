@@ -2,47 +2,48 @@ package duck.craftffxiv;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
-// CSV reader code from https://www.jackrutorial.com/2018/03/how-to-read-and-write-csv-files-in-java.html
+// CSV reader code based on code from https://www.jackrutorial.com/2018/03/how-to-read-and-write-csv-files-in-java.html
 
 public class CsvReader {
+	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	
+	private CsvReader() {
+		// Empty private constructor, since this class is just going to contain static methods
+	}
+	
 	public static List<CsvEntry> readCsv(String filePath) {
-		BufferedReader reader = null;
-		List<CsvEntry> entries = new ArrayList<CsvEntry>();
+		LOGGER.setLevel(Level.INFO);
+		List<CsvEntry> entries = new ArrayList<>();
 		
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))){
 			String line = "";
-			reader = new BufferedReader(new FileReader(filePath));
-			reader.readLine();
+			int count = 0;
 			
 			while((line = reader.readLine()) != null) {
-				String[] fields = line.split(",");
-				
-				if(fields.length > 0) {
-					CsvEntry entry = new CsvEntry();
-					entry.setItem(fields[0]);
-					entry.setNeeded(Integer.parseInt(fields[3]));
-					entries.add(entry);
+				if(count != 0) {
+					String[] fields = line.split(",");
+					
+					if(fields.length > 0) {
+						CsvEntry entry = new CsvEntry();
+						entry.setItem(fields[0]);
+						entry.setNeeded(Integer.parseInt(fields[3]));
+						entries.add(entry);
+					}					
 				}
+				count++;
 			}
 			
 			for(CsvEntry i: entries) {
-				System.out.printf("%d units of %s are needed.\n", i.getNeeded(), i.getItem());
+				LOGGER.info(i.getNeeded() + " units of " + i.getItem() + " are needed.");
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				reader.close();
-			}
-			catch(Exception e2) {
-				e2.printStackTrace();
-			}
+			LOGGER.severe(e.getMessage());
 		}
 		return entries;
 	}
