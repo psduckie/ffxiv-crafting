@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author PSDuckie
+ *
+ */
+module craftFFXIV {
+}
